@@ -810,7 +810,8 @@ function useDropdownPopover({
       ref,
       hidden: !isExpanded,
       onBlur: composeEventHandlers(onBlur, (event) => {
-        if (event.currentTarget.contains(event.relatedTarget as Node)) {
+        // workaround for Safari bug https://bugs.webkit.org/show_bug.cgi?id=22261
+        if (event.currentTarget.contains((event.relatedTarget || event.target) as Node)) {
           return;
         }
         dispatch({ type: CLOSE_MENU });
